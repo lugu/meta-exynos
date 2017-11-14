@@ -5,6 +5,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 inherit kernel siteinfo
+inherit kernel-fitimage
 require recipes-kernel/linux/linux-yocto.inc
 
 # Specify the commandline for your device
@@ -24,10 +25,10 @@ python __anonymous () {
 
     import bb
     
-    devicetree = bb.data.getVar('KERNEL_DEVICETREE', d, 1) or ''
+    devicetree = d.getVar('KERNEL_DEVICETREE') or ''
     if devicetree:
-    	depends = bb.data.getVar("DEPENDS", d, 1)
-    	bb.data.setVar("DEPENDS", "%s dtc-native" % depends, d)
+    	depends = d.getVar("DEPENDS")
+    	d.setVar("DEPENDS", "%s dtc-native" % depends)
 }
 
 do_configure_prepend() {
@@ -163,7 +164,6 @@ EXTRA_OEMAKE = "${PARALLEL_MAKE} "
 
 do_install_append() {
 	oe_runmake headers_install INSTALL_HDR_PATH=${D}${exec_prefix}/src/linux-${KERNEL_VERSION} ARCH=$ARCH
-	oe_runmake firmware_install INSTALL_MOD_PATH=${D} ARCH=$ARCH
 	install -d ${D}/boot
 	make dtbs || true
 	install -m 0644 ${S}/arch/arm/boot/dts/*.dtb ${D}/boot || true
