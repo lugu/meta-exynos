@@ -1,0 +1,28 @@
+From 1f37c430a3cc0d4c8061c3c2e6f33a44b8f7d705 Mon Sep 17 00:00:00 2001
+From: Ludovic Guegan <ludovic.guegan@gmail.com>
+Date: Wed, 1 Feb 2017 02:14:11 +0100
+Subject: [PATCH 1/2] exynos5250-snow: dummy tpm in dts for u-boot
+
+---
+ arch/arm/boot/dts/exynos5250-snow-common.dtsi | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm/boot/dts/exynos5250-snow-common.dtsi b/arch/arm/boot/dts/exynos5250-snow-common.dtsi
+index 8788880e459d..7bd7023be476 100644
+--- a/arch/arm/boot/dts/exynos5250-snow-common.dtsi
++++ b/arch/arm/boot/dts/exynos5250-snow-common.dtsi
+@@ -475,6 +475,11 @@
+ 	status = "okay";
+ 	samsung,i2c-sda-delay = <100>;
+ 	samsung,i2c-max-bus-freq = <66000>;
++
++	tpm {
++		compatible = "infineon,slb9635tt";
++		reg = <0x20>;
++	};
+ };
+ 
+ &i2c_7 {
+-- 
+2.12.0
+
